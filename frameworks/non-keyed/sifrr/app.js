@@ -3,22 +3,22 @@ import SifrrFetch from '@sifrr/fetch'
 
 window.Sifrr = { Dom: SifrrDOM, Fetch: SifrrFetch };
 Sifrr.Dom.setup({ baseUrl: '/frameworks/non-keyed/sifrr/' });
-Sifrr.Dom.addEvent('click');
+Sifrr.Dom.Event.add('click');
 Sifrr.Dom.load('main-element');
 const sft = document.querySelector('main-element');
-var startTime, lastMeasure;
-var startMeasure = function(name) {
+let startTime, lastMeasure;
+let startMeasure = function(name) {
   startTime = performance.now();
   lastMeasure = name;
 }
 
-var stopMeasure = function() {
-  var last = lastMeasure;
+let stopMeasure = function() {
+  let last = lastMeasure;
   if (lastMeasure) {
     window.setTimeout(function() {
       lastMeasure = null;
-      var stop = performance.now();
-      var duration = 0;
+      let stop = performance.now();
+      let duration = 0;
       console.log(last + " took " + (stop - startTime));
     }, 0);
   }
@@ -26,7 +26,7 @@ var stopMeasure = function() {
 let selected = null;
 document.querySelector("main-element").$click = e => {
   let target = e.path ? e.path[0] : e.target;
-  startMeasure(target.id || target.className);
+  // startMeasure(target.id || target.className);
   if (target.matches('#add')) {
     //console.log("add");
     sft.state = {
@@ -69,7 +69,7 @@ document.querySelector("main-element").$click = e => {
     //console.log("swapRows");
     let state = sft.state.data;
     if (state.length > 998) {
-      var tmp = state[1];
+      const tmp = state[1];
       state[1] = state[998];
       state[998] = tmp;
       sft.state = {data: state};
@@ -97,7 +97,7 @@ document.querySelector("main-element").$click = e => {
     }
     sft.state = { data: state };
   }
-  stopMeasure();
+  // stopMeasure();
 };
 
 function _random(max) {
@@ -122,6 +122,6 @@ function buildData(count = 1000) {
 }
 
 function getParentId(elem) {
-  while(!elem.dataset.id) elem = elem.parentNode;
-  return elem.dataset.id;
+  while(elem.nodeName !== 'TR') elem = elem.parentNode;
+  return elem.state.id;
 }
