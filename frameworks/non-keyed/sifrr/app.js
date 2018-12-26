@@ -75,7 +75,7 @@ document.querySelector("main-element").$click = e => {
       sft.state = {data: state};
     }
   } else if (target.matches('.remove')) {
-    let id = getParentId(target);
+    const id = getParent(target).state.id;
     // console.log("delete",id);
     let state = sft.state.data;
     for(let i = state.length-1; i >= 0; i--){
@@ -85,17 +85,26 @@ document.querySelector("main-element").$click = e => {
     }
     sft.state = { data: state };
   } else if (target.matches('.lbl')) {
-    let id = getParentId(target);
+    // Using state
+    // const id = getParent(target).state.id;
     // console.log("select",id);
-    let state = sft.state.data;
-    for(let i = state.length-1; i >= 0; i--){
-      if (state[i].id == id) {
-        state[i].class = 'danger';
-      } else {
-        state[i].class = null;
-      }
+    // const state = sft.state.data;
+    // for(let i = state.length-1; i >= 0; i--){
+    //   if (state[i].id == id) {
+    //     state[i].class = 'danger';
+    //   } else {
+    //     state[i].class = null;
+    //   }
+    // }
+    // sft.state = { data: state };
+
+    // Maybe cheating by using vanilla implementation?
+    const row = getParent(target);
+    if (selected) {
+      selected.className = '';
     }
-    sft.state = { data: state };
+    row.className = 'danger';
+    selected = row;
   }
   // stopMeasure();
 };
@@ -121,7 +130,7 @@ function buildData(count = 1000) {
   return data;
 }
 
-function getParentId(elem) {
+function getParent(elem) {
   while(elem.nodeName !== 'TR') elem = elem.parentNode;
-  return elem.state.id;
+  return elem;
 }
