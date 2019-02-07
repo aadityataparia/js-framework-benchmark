@@ -29,7 +29,7 @@ frameworks.forEach((framework, fIdx) => {
             }));
             resultJS += '\n' + JSON.stringify(({f:data.framework, b:data.benchmark, v:data.values})) + ',';
         } else {
-            console.log("MISSING FILE",file);
+            // console.log("MISSING FILE",file);
         }
     });
 });
